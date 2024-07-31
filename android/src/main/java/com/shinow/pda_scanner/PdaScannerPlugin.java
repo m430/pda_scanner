@@ -21,6 +21,7 @@ public class PdaScannerPlugin implements EventChannel.StreamHandler {
     private static final String HONEYWELL_SCAN_ACTION = "com.honeywell.decode.intent.action.EDIT_DATA";
     private static final String SEUIC_SCAN_ACTION = "com.android.scanner.service_settings";
     private static final String NL_SCAN_ACTION = "nlscan.action.SCANNER_RESULT";
+    private static final String YTO_ACTION = "com.yto.action.GET_SCANDATA";
 
     private static EventChannel.EventSink eventSink;
 
@@ -39,7 +40,7 @@ public class PdaScannerPlugin implements EventChannel.StreamHandler {
                 int barcodelen = intent.getIntExtra("length", 0);
                 String result = new String(barcode, 0, barcodelen);
                 eventSink.success(result);
-            } else if (HONEYWELL_SCAN_ACTION.equals(actionName) || BARCODE_DATA_ACTION.equals(actionName)) {
+            } else if (HONEYWELL_SCAN_ACTION.equals(actionName) || BARCODE_DATA_ACTION.equals(actionName) || YTO_ACTION.equals(actionName)) {
                 eventSink.success(intent.getStringExtra("data"));
             } else if (NL_SCAN_ACTION.equals(actionName)) {
                 eventSink.success(intent.getStringExtra("SCAN_BARCODE1"));
