@@ -96,7 +96,12 @@ public class PdaScannerPlugin implements EventChannel.StreamHandler {
         newlandIntentFilter.addAction(NL_SCAN_ACTION);
         newlandIntentFilter.setPriority(Integer.MAX_VALUE);
         activity.registerReceiver(scanReceiver, newlandIntentFilter);
-        Log.i("新大陆", "初始化成功");
+
+        // 圆通
+        IntentFilter ytoIntentFilter = new IntentFilter();
+        ytoIntentFilter.addAction(YTO_ACTION);
+        ytoIntentFilter.setPriority(Integer.MAX_VALUE);
+        activity.registerReceiver(scanReceiver, ytoIntentFilter);
     }
 
     public static void registerWith(PluginRegistry.Registrar registrar) {
