@@ -22,6 +22,7 @@ rootProject.allprojects {
 apply plugin: 'com.android.library'
 
 android {
+    namespace 'com.shinow.pda_scanner'
     compileSdkVersion 28
 
     defaultConfig {
