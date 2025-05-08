@@ -38,7 +38,7 @@ public class PdaScannerPlugin implements FlutterPlugin, ActivityAware, EventChan
     // 用于去重扫描结果
     private long lastScanTimeMillis = 0;
     private String lastScanResult = null;
-    private static final long DUPLICATE_SCAN_THRESHOLD_MS = 20;
+    private static final long DUPLICATE_SCAN_THRESHOLD_MS = 100;
 
     @Nullable
     private EventChannel eventChannel;
@@ -92,7 +92,7 @@ public class PdaScannerPlugin implements FlutterPlugin, ActivityAware, EventChan
                 // 更新最后扫描时间和结果
                 lastScanTimeMillis = currentTimeMillis;
                 lastScanResult = scanResult;
-                
+
                 Log.d(TAG, "Sending success event with data: " + scanResult);
                 eventSink.success(scanResult);
             } else {
