@@ -35,6 +35,8 @@ public class PdaScannerPlugin implements FlutterPlugin, ActivityAware, EventChan
     private static final String NL_SCAN_ACTION = "nlscan.action.SCANNER_RESULT";
     private static final String YTO_ACTION = "com.yto.action.GET_SCANDATA";
 
+    private final String pluginInstanceId = java.util.UUID.randomUUID().toString();
+
     @Nullable
     private EventChannel eventChannel;
     @Nullable
@@ -44,9 +46,14 @@ public class PdaScannerPlugin implements FlutterPlugin, ActivityAware, EventChan
     @Nullable
     private static EventChannel.EventSink eventSink;
 
+    public PdaScannerPlugin() { // 如果你有构造函数
+        Log.d(TAG, "PdaScannerPlugin constructor called, instance ID: " + pluginInstanceId);
+    }
+
     private static final BroadcastReceiver scanReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            Log.d(TAG, "onReceive in plugin instance ID: " + PdaScannerPlugin.this.pluginInstanceId);
             if (eventSink == null) {
                 Log.w(TAG, "eventSink is null, discarding scanned data.");
                 return;
@@ -90,6 +97,7 @@ public class PdaScannerPlugin implements FlutterPlugin, ActivityAware, EventChan
     @Override
     public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
         Log.d(TAG, "onAttachedToEngine");
+        Log.d(TAG, "onAttachedToEngine, instance ID: " + pluginInstanceId);
         this.applicationContext = binding.getApplicationContext();
         BinaryMessenger messenger = binding.getBinaryMessenger();
         eventChannel = new EventChannel(messenger, CHANNEL_NAME);
