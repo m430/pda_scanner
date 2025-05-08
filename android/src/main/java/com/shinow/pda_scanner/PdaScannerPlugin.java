@@ -44,7 +44,7 @@ public class PdaScannerPlugin implements FlutterPlugin, ActivityAware, EventChan
     @Nullable
     private static EventChannel.EventSink eventSink;
 
-    private static final BroadcastReceiver scanReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver scanReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (eventSink == null) {
