@@ -35,6 +35,11 @@ public class PdaScannerPlugin implements FlutterPlugin, ActivityAware, EventChan
     private static final String NL_SCAN_ACTION = "nlscan.action.SCANNER_RESULT";
     private static final String YTO_ACTION = "com.yto.action.GET_SCANDATA";
 
+    // 用于去重扫描结果
+    private long lastScanTimeMillis = 0;
+    private String lastScanResult = null;
+    private static final long DUPLICATE_SCAN_THRESHOLD_MS = 20;
+
     @Nullable
     private EventChannel eventChannel;
     @Nullable
@@ -78,6 +83,16 @@ public class PdaScannerPlugin implements FlutterPlugin, ActivityAware, EventChan
             }
 
             if (scanResult != null) {
+                long currentTimeMillis = System.currentTimeMillis();
+                // 检查是否是重复扫描
+                if (currentTimeMillis - lastScanTimeMillis < DUPLICATE_SCAN_THRESHOLD_MS && scanResult.equals(lastScanResult)) {
+                    Log.d(TAG, "Ignoring duplicate scan result: " + scanResult);
+                    return;
+                }
+                // 更新最后扫描时间和结果
+                lastScanTimeMillis = currentTimeMillis;
+                lastScanResult = scanResult;
+                
                 Log.d(TAG, "Sending success event with data: " + scanResult);
                 eventSink.success(scanResult);
             } else {
